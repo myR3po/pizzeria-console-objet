@@ -83,6 +83,41 @@ public class PizzeriaAdminConsoleApp {
 			}
 		}
 	}
+		
+	private void delete() {
+		int i = 0;
+		boolean find = false;
+		
+		display();
+		System.out.println("Veuillez choisir la pizza à supprimer");
+		System.out.println("(99 pour abandonner)");
+		String choice = questionUser.nextLine();
+		
+		if(!choice.equals("99")) {
+			do {
+				if(choice.equals(pizzaArray[i].getCode())) {
+					find = true;
+					pizzaArray[i] = null;
+				}
+				i++;
+			}while(!find || i < pizzaArray.length);
+			
+			if(find) {
+				Pizza[] pizzaArrayTemp = pizzaArray.clone();
+				pizzaArray = new Pizza[pizzaArray.length - 1];
+				
+				i = 0;
+				for(Pizza pizza : pizzaArrayTemp) {
+					if(pizza != null) {
+						pizzaArray[i] = pizza;
+						i++;
+					}
+				}
+			}else {
+				System.out.println("Pizza non trouvée");
+			}
+		}
+	}
 	
 	private int menu() {
 		System.out.println("***** Pizzeria Administration *****\r\n" + 
@@ -109,7 +144,7 @@ public class PizzeriaAdminConsoleApp {
 				update();
 				break;
 			case 4:
-				System.out.println("delete");
+				delete();
 				break;
 			case 99:
 				System.out.println("Bye...");
