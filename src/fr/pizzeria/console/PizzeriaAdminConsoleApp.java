@@ -2,11 +2,35 @@ package fr.pizzeria.console;
 
 import java.util.Scanner;
 
+import fr.pizzeria.model.Pizza;
+
 public class PizzeriaAdminConsoleApp {
 	private Scanner questionUser;
+	private Pizza[] pizzaArray ;
 	
 	public PizzeriaAdminConsoleApp() {
 		this.questionUser = new Scanner(System.in);
+		init();
+	}
+	
+	private void init() {
+		pizzaArray = new Pizza []{ 
+				new Pizza("PEP", "Pépéroni", 12.50),
+				new Pizza("MAR", "Margherita", 14.00),
+				new Pizza("REIN", "La Reine", 11.50),
+				new Pizza("FRO", "Les 4 fromages", 12.00),
+				new Pizza("CAN", "La cannibale",12.50),
+				new Pizza("SAV", "La savoyarde", 13.00),
+				new Pizza("ORI", "L\'orientale", 13.50),
+				new Pizza("IND", "L\'indienne",14.00)
+		};
+	}
+	
+	private void display() {
+		for(Pizza pizza : pizzaArray) {
+			System.out.println(pizza);
+		}
+		System.out.println();
 	}
 
 	private int menu() {
@@ -25,7 +49,7 @@ public class PizzeriaAdminConsoleApp {
 		while(want) {
 			switch(menu()) {
 			case 1:
-				System.out.println("liste");
+				display();
 				break;
 			case 2:
 				System.out.println("add");
