@@ -33,6 +33,29 @@ public class PizzeriaAdminConsoleApp {
 		System.out.println();
 	}
 
+//	TODO (me): refactor this method 
+	private void add(){
+		System.out.println("Veuillez saisir le code");
+		String code = questionUser.nextLine();
+
+		System.out.println("Veuillez saisir le nom (sans espace)");
+		String name = questionUser.nextLine();
+		
+		System.out.println("Veuillez saisir le prix");
+		double price = Double.parseDouble(questionUser.nextLine());
+		
+		Pizza[] pizzaArrayTemp = pizzaArray.clone();
+		pizzaArray = new Pizza[pizzaArray.length + 1];
+		
+		for(int i = 0; i < pizzaArrayTemp.length; i++) {
+			pizzaArray[i] = pizzaArrayTemp[i];
+		}
+
+		pizzaArray[pizzaArrayTemp.length] = new Pizza(code, name, price);
+	}
+	
+	
+	
 	private int menu() {
 		System.out.println("***** Pizzeria Administration *****\r\n" + 
 				"1. Lister les pizzas\r\n" + 
@@ -43,7 +66,7 @@ public class PizzeriaAdminConsoleApp {
 		
 		return Integer.parseInt(questionUser.nextLine());
 	}
-	
+		
 	public void launch() {
 		boolean want = true;
 		while(want) {
@@ -52,7 +75,7 @@ public class PizzeriaAdminConsoleApp {
 				display();
 				break;
 			case 2:
-				System.out.println("add");
+				add();
 				break;
 			case 3:
 				System.out.println("modif");
@@ -77,8 +100,7 @@ public class PizzeriaAdminConsoleApp {
 				
 		PizzeriaAdminConsoleApp pizzeriaAdminConsoleApp = new PizzeriaAdminConsoleApp();
 		pizzeriaAdminConsoleApp.launch();
-		
-		
+			
 	}
 
 }
