@@ -8,6 +8,10 @@ public class Pizza {
 	private String name;
 	private double price;
 	
+	public Pizza() {
+		
+	}
+	
 	public Pizza(String code, String name, double price) {
 		this.code = code;
 		this.name = name;

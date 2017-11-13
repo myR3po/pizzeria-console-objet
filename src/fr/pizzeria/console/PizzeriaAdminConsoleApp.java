@@ -33,16 +33,9 @@ public class PizzeriaAdminConsoleApp {
 		System.out.println();
 	}
 
-//	TODO (me): refactor this method 
 	private void add(){
-		System.out.println("Veuillez saisir le code");
-		String code = questionUser.nextLine();
-
-		System.out.println("Veuillez saisir le nom (sans espace)");
-		String name = questionUser.nextLine();
-		
-		System.out.println("Veuillez saisir le prix");
-		double price = Double.parseDouble(questionUser.nextLine());
+		Pizza pizza = new Pizza();		
+		edit(pizza);
 		
 		Pizza[] pizzaArrayTemp = pizzaArray.clone();
 		pizzaArray = new Pizza[pizzaArray.length + 1];
@@ -51,10 +44,45 @@ public class PizzeriaAdminConsoleApp {
 			pizzaArray[i] = pizzaArrayTemp[i];
 		}
 
-		pizzaArray[pizzaArrayTemp.length] = new Pizza(code, name, price);
+		pizzaArray[pizzaArrayTemp.length] = pizza;
 	}
 	
+	private void edit(Pizza pizza) {
+		System.out.println("Veuillez saisir le code");
+		pizza.setCode(questionUser.nextLine());
+
+		System.out.println("Veuillez saisir le nom (sans espace)");
+		pizza.setName(questionUser.nextLine());
+		
+		System.out.println("Veuillez saisir le prix");
+		pizza.setPrice(Double.parseDouble(questionUser.nextLine()));
+	}
 	
+	private void update() {
+		int i = 0;
+		Pizza pizza = null;
+		boolean find = false;
+		
+		display();
+		System.out.println("Veuillez choisir le code de la pizza à modifier");
+		System.out.println("(99 pour abandonner)");
+		String choice = questionUser.nextLine();
+		if(!choice.equals("99")) {
+			do {
+				if(choice.equals(pizzaArray[i].getCode())) {
+					find = true;
+					pizza = pizzaArray[i];
+				}
+				i++;
+			}while(!find || i < pizzaArray.length);
+			
+			if(pizza != null) {
+				edit(pizza);
+			}else {
+				System.out.println("Nous n'avons pas cette pizza.");
+			}
+		}
+	}
 	
 	private int menu() {
 		System.out.println("***** Pizzeria Administration *****\r\n" + 
@@ -78,7 +106,7 @@ public class PizzeriaAdminConsoleApp {
 				add();
 				break;
 			case 3:
-				System.out.println("modif");
+				update();
 				break;
 			case 4:
 				System.out.println("delete");
