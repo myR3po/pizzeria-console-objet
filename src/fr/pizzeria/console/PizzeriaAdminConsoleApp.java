@@ -59,23 +59,15 @@ public class PizzeriaAdminConsoleApp {
 	}
 	
 	private void update() {
-		int i = 0;
 		Pizza pizza = null;
-		boolean find = false;
-		
+		String code = null;
 		display();
 		System.out.println("Veuillez choisir le code de la pizza à modifier");
 		System.out.println("(99 pour abandonner)");
-		String choice = questionUser.nextLine();
-		if(!choice.equals("99")) {
-			do {
-				if(choice.equals(pizzaArray[i].getCode())) {
-					find = true;
-					pizza = pizzaArray[i];
-				}
-				i++;
-			}while(!find || i < pizzaArray.length);
-			
+		code = questionUser.nextLine();
+		
+		if(!code.equals("99")) {
+			pizza = search(code);
 			if(pizza != null) {
 				edit(pizza);
 			}else {
@@ -83,33 +75,42 @@ public class PizzeriaAdminConsoleApp {
 			}
 		}
 	}
+	
+	private Pizza search(String code) {
+		int i = 0;
+		Pizza pizza = null;
+		boolean find = false;
 		
+		do {
+			if(code.equals(pizzaArray[i].getCode())) {
+				find = true;
+				pizza = pizzaArray[i];
+			}
+			i++;
+		}while(!find || i < pizzaArray.length);
+		
+		return pizza;
+	}
+	
 	private void delete() {
 		int i = 0;
-		boolean find = false;
+		String code = null;
 		
 		display();
 		System.out.println("Veuillez choisir la pizza à supprimer");
 		System.out.println("(99 pour abandonner)");
-		String choice = questionUser.nextLine();
+		code = questionUser.nextLine();
 		
-		if(!choice.equals("99")) {
-			do {
-				if(choice.equals(pizzaArray[i].getCode())) {
-					find = true;
-					pizzaArray[i] = null;
-				}
-				i++;
-			}while(!find || i < pizzaArray.length);
-			
-			if(find) {
+		if(!code.equals("99")) {
+			Pizza pizza = search(code);
+			if(pizza != null) {
 				Pizza[] pizzaArrayTemp = pizzaArray.clone();
 				pizzaArray = new Pizza[pizzaArray.length - 1];
-				
+				 
 				i = 0;
-				for(Pizza pizza : pizzaArrayTemp) {
-					if(pizza != null) {
-						pizzaArray[i] = pizza;
+				for(Pizza p : pizzaArrayTemp) {
+					if(!p.equals(pizza)) {
+						pizzaArray[i] = p;
 						i++;
 					}
 				}
