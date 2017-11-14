@@ -1,19 +1,19 @@
 package fr.pizzeria.ihm;
 
-import fr.pizzeria.dao.PizzaDaoImpl;
+import fr.pizzeria.dao.IPizzaDao;
 import fr.pizzeria.model.Pizza;
 
 public class ListerPizzasOptionMenu extends OptionMenu {
 	private Pizza[] pizzas;
-	private PizzaDaoImpl pizzaDaoImpl;
+	private IPizzaDao pizzaDao;
 	
-	public ListerPizzasOptionMenu(PizzaDaoImpl pizzaDaoImpl) {
+	public ListerPizzasOptionMenu(IPizzaDao pizzaDao) {
 		this.libelle = "1. Lister les pizzas\r";
-		this.setPizzaDaoImpl(pizzaDaoImpl);
+		this.pizzaDao = pizzaDao;
 	}
 
 	public boolean execute() {
-		for(Pizza pizza : this.getPizzaDaoImpl().findAllPizzas()) {
+		for(Pizza pizza : this.getPizzaDao().findAllPizzas()) {
 			if(pizza != null) {
 				System.out.println(pizza);
 			}
@@ -34,12 +34,12 @@ public class ListerPizzasOptionMenu extends OptionMenu {
 	}
 
 
-	public PizzaDaoImpl getPizzaDaoImpl() {
-		return pizzaDaoImpl;
+	public IPizzaDao getPizzaDao() {
+		return pizzaDao;
 	}
 
 
-	public void setPizzaDaoImpl(PizzaDaoImpl pizzaDaoImpl) {
-		this.pizzaDaoImpl = pizzaDaoImpl;
+	public void setPizzaDao(IPizzaDao pizzaDao) {
+		this.pizzaDao = pizzaDao;
 	}
 }

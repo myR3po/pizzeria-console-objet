@@ -3,9 +3,7 @@ package fr.pizzeria.ihm;
 import java.util.Scanner;
 
 import fr.pizzeria.dao.PizzaDaoImpl;
-import fr.pizzeria.exception.DeletePizzaException;
-import fr.pizzeria.exception.SavePizzaException;
-import fr.pizzeria.exception.UpdatePizzaException;
+import fr.pizzeria.exception.StockageException;
 
 public class Menu {
 	
@@ -67,9 +65,8 @@ public class Menu {
 					break;
 				default:
 				}
-			} catch (UpdatePizzaException | DeletePizzaException | SavePizzaException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (StockageException e) {
+				System.out.println(e.getMessage());
 			}
 		}
 		
@@ -89,5 +86,4 @@ public class Menu {
 	public String getTitle() {
 		return TITLE;
 	}
-
 }
