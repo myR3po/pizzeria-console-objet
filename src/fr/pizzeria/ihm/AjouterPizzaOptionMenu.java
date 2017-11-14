@@ -3,6 +3,7 @@ package fr.pizzeria.ihm;
 import java.util.Scanner;
 
 import fr.pizzeria.dao.PizzaDaoImpl;
+import fr.pizzeria.exception.SavePizzaException;
 import fr.pizzeria.model.Pizza;
 
 public class AjouterPizzaOptionMenu extends OptionMenu {
@@ -19,7 +20,7 @@ public class AjouterPizzaOptionMenu extends OptionMenu {
 		this.setScanner(scanner);
 	}
 	
-	public boolean execute() {
+	public boolean execute() throws SavePizzaException {
 		Pizza pizza = new Pizza();
 		
 		System.out.println("Veuillez saisir le code");
@@ -31,9 +32,13 @@ public class AjouterPizzaOptionMenu extends OptionMenu {
 		System.out.println("Veuillez saisir le prix");
 		pizza.setPrice(Double.parseDouble(scanner.nextLine()));
 		
-		getPizzaDaoImpl().saveNewPizza(pizza);
+		boolean done = getPizzaDaoImpl().saveNewPizza(pizza);
 		
-		return true;
+		if(!done) {
+			throw new SavePizzaException();
+		}
+		
+		return done;
 	}
 	
 	public Pizza[] getPizzas() {

@@ -3,6 +3,7 @@ package fr.pizzeria.ihm;
 import java.util.Scanner;
 
 import fr.pizzeria.dao.PizzaDaoImpl;
+import fr.pizzeria.exception.DeletePizzaException;
 import fr.pizzeria.model.Pizza;
 
 public class SupprimerPizzaOptionMenu extends OptionMenu{
@@ -41,7 +42,7 @@ public class SupprimerPizzaOptionMenu extends OptionMenu{
 		this.pizzaDaoImpl = pizzaDaoImpl;
 	}
 
-	public boolean execute() {
+	public boolean execute() throws DeletePizzaException {
 		String code = null;
 		boolean done = false ;
 
@@ -54,7 +55,7 @@ public class SupprimerPizzaOptionMenu extends OptionMenu{
 			done = this.getPizzaDaoImpl().deletePizza(code);
 			
 			if (!done) {
-				System.out.println("Pizza non trouvée");
+				throw new DeletePizzaException("Pizza non trouvée");
 			}
 		}
 		

@@ -55,7 +55,7 @@ public class PizzaDaoImpl implements IPizzaDao{
 				this.getPizzaArray()[i] = pizza;
 			}
 			i++;
-		}while(!done || i < this.getPizzaArray().length);
+		}while(!done && i < this.getPizzaArray().length);
 		
 		return done;
 	}
@@ -71,7 +71,7 @@ public class PizzaDaoImpl implements IPizzaDao{
 					getPizzaArray()[i] = null;
 				}
 				i++;
-			}while(!done || i < this.getPizzaArray().length);
+			}while(!done && i < this.getPizzaArray().length);
 			
 		return done;
 	}

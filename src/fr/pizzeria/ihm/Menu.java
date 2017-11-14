@@ -3,6 +3,9 @@ package fr.pizzeria.ihm;
 import java.util.Scanner;
 
 import fr.pizzeria.dao.PizzaDaoImpl;
+import fr.pizzeria.exception.DeletePizzaException;
+import fr.pizzeria.exception.SavePizzaException;
+import fr.pizzeria.exception.UpdatePizzaException;
 
 public class Menu {
 	
@@ -28,8 +31,7 @@ public class Menu {
 	
 	
 	public void afficher() {
-		
-		
+
 		int choice = 0 ; 
 		boolean want = true;
 		while(want) {
@@ -40,27 +42,34 @@ public class Menu {
 			}
 			System.out.println("99. Sortir");
 			choice = Integer.parseInt(questionUser.nextLine());
-			switch(choice) {
-			case 1:
-				this.getActions()[0].execute();
-				break;
-			case 2:
-				this.getActions()[0].execute();
-				this.getActions()[1].execute();
-				break;
-			case 3:
-				this.getActions()[0].execute();
-				this.getActions()[2].execute();
-				break;
-			case 4:
-				this.getActions()[0].execute();
-				this.getActions()[3].execute();
-				break;
-			case 99:
-				System.out.println("Bye...");
-				want = false;
-				break;
+			try {
+				switch (choice) {
+				case 1:
+					this.getActions()[0].execute();
+					break;
+				case 2:
+					this.getActions()[0].execute();
+
+					this.getActions()[1].execute();
+
+					break;
+				case 3:
+					this.getActions()[0].execute();
+					this.getActions()[2].execute();
+					break;
+				case 4:
+					this.getActions()[0].execute();
+					this.getActions()[3].execute();
+					break;
+				case 99:
+					System.out.println("Bye...");
+					want = false;
+					break;
 				default:
+				}
+			} catch (UpdatePizzaException | DeletePizzaException | SavePizzaException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 		

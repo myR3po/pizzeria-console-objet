@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import fr.pizzeria.model.Pizza;
 import fr.pizzeria.dao.PizzaDaoImpl;
+import fr.pizzeria.exception.UpdatePizzaException;
 
 public class ModifierPizzaOptionMenu extends OptionMenu {
 	
@@ -42,7 +43,7 @@ public class ModifierPizzaOptionMenu extends OptionMenu {
 		this.pizzaDaoImpl = pizzaDaoImpl;
 	}
 
-	public boolean execute() {
+	public boolean execute() throws UpdatePizzaException {
 		Pizza pizza = null;
 		String code = null;
 		boolean done;
@@ -66,7 +67,7 @@ public class ModifierPizzaOptionMenu extends OptionMenu {
 			done = this.getPizzaDaoImpl().updatePizza(code, pizza);
 		
 		if(!done){
-			System.out.println("Nous n'avons pas cette pizza.");
+			throw new UpdatePizzaException("Nous n'avons pas cette pizza.");
 		}
 		
 	}
