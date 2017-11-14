@@ -2,40 +2,28 @@ package fr.pizzeria.ihm;
 
 import java.util.Scanner;
 
-import fr.pizzeria.model.Pizza;
+import fr.pizzeria.dao.PizzaDaoImpl;
 
 public class Menu {
 	
 	private OptionMenu[] actions;
 	private final String TITLE = "***** Pizzeria Administration *****\r\n";
-	
+	private PizzaDaoImpl pizzaDaoImpl;
 	private Scanner questionUser;
-	private Pizza[] pizzaArray ;
+	
 	
 	public Menu() {
+		this.pizzaDaoImpl = new PizzaDaoImpl();
 		this.questionUser = new Scanner(System.in);
-		pizzaArray = new Pizza[100];
 		actions = new OptionMenu[4];
-		init();
 		addOptionMenu();
-	}
-
-	private void init() {		
-		pizzaArray[0] = new Pizza("PEP", "Pépéroni", 12.50);
-		pizzaArray[1] = new Pizza("MAR", "Margherita", 14.00);
-		pizzaArray[2] = new Pizza("REIN", "La Reine", 11.50);
-		pizzaArray[3] = new Pizza("FRO", "Les 4 fromages", 12.00);
-		pizzaArray[4] = new Pizza("CAN", "La cannibale",12.50);
-		pizzaArray[5] = new Pizza("SAV", "La savoyarde", 13.00);
-		pizzaArray[6] = new Pizza("ORI", "L\'orientale", 13.50);
-		pizzaArray[7] = new Pizza("IND", "L\'indienne",14.00);
 	}
 	
 	private void addOptionMenu() {
-		getActions()[0] = new ListerPizzasOptionMenu(pizzaArray);
-		getActions()[1] = new AjouterPizzaOptionMenu(pizzaArray, questionUser);
-		getActions()[2] = new ModifierPizzaOptionMenu(pizzaArray, questionUser);
-		getActions()[3] = new SupprimerPizzaOptionMenu(pizzaArray, questionUser);
+		getActions()[0] = new ListerPizzasOptionMenu(pizzaDaoImpl);
+		getActions()[1] = new AjouterPizzaOptionMenu(pizzaDaoImpl, questionUser);
+		getActions()[2] = new ModifierPizzaOptionMenu(pizzaDaoImpl, questionUser);
+		getActions()[3] = new SupprimerPizzaOptionMenu(pizzaDaoImpl, questionUser);
 	}
 	
 	

@@ -2,16 +2,18 @@ package fr.pizzeria.ihm;
 
 import java.util.Scanner;
 
+import fr.pizzeria.dao.PizzaDaoImpl;
 import fr.pizzeria.model.Pizza;
 
 public class SupprimerPizzaOptionMenu extends OptionMenu{
 	
 	private Pizza[] pizzas;
 	private Scanner scanner;
+	private PizzaDaoImpl pizzaDaoImpl;
 	
-	public SupprimerPizzaOptionMenu(Pizza[] pizzas, Scanner scanner) {
+	public SupprimerPizzaOptionMenu(PizzaDaoImpl pizzaDaoImpl, Scanner scanner) {
 		this.libelle = "4. Supprimer une pizza\r";
-		this.setPizzas(pizzas);
+		this.pizzaDaoImpl = pizzaDaoImpl;
 		this.setScanner(scanner);
 	}
 
@@ -30,10 +32,18 @@ public class SupprimerPizzaOptionMenu extends OptionMenu{
 	public void setScanner(Scanner scanner) {
 		this.scanner = scanner;
 	}
+	
+	public PizzaDaoImpl getPizzaDaoImpl() {
+		return pizzaDaoImpl;
+	}
+
+	public void setPizzaDaoImpl(PizzaDaoImpl pizzaDaoImpl) {
+		this.pizzaDaoImpl = pizzaDaoImpl;
+	}
 
 	public boolean execute() {
-		int i = 0;
 		String code = null;
+		boolean done = false ;
 
 		System.out.println("Veuillez choisir la pizza à supprimer");
 		System.out.println("(99 pour abandonner)");
@@ -41,21 +51,13 @@ public class SupprimerPizzaOptionMenu extends OptionMenu{
 
 		if (!code.equals("99")) {
 			
-			boolean find = false;
+			done = this.getPizzaDaoImpl().deletePizza(code);
 			
-			do {
-				if(pizzas[i] != null && code.equals(this.pizzas[i].getCode())) {
-					find = true;
-					pizzas[i] = null;
-				}
-				i++;
-			}while(!find || i < this.getPizzas().length);
-			
-			if (!find) {
+			if (!done) {
 				System.out.println("Pizza non trouvée");
 			}
 		}
 		
-		return true;
+		return done;
 	}
 }
