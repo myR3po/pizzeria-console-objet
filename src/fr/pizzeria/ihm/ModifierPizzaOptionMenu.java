@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import fr.pizzeria.model.Pizza;
 import fr.pizzeria.dao.IPizzaDao;
+import fr.pizzeria.exception.SavePizzaException;
 import fr.pizzeria.exception.UpdatePizzaException;
 
 public class ModifierPizzaOptionMenu extends OptionMenu {
@@ -46,6 +47,13 @@ public class ModifierPizzaOptionMenu extends OptionMenu {
 		Pizza pizza = null;
 		String code = null;
 		boolean done;
+		
+		for(Pizza p : this.getPizzaDao().findAllPizzas()) {
+			if(p != null) {
+				System.out.println(p);
+			}
+		}
+		System.out.println();
 
 		System.out.println("Veuillez choisir le code de la pizza à modifier");
 		System.out.println("(99 pour abandonner)");
@@ -55,14 +63,14 @@ public class ModifierPizzaOptionMenu extends OptionMenu {
 			pizza = new Pizza();
 
 			System.out.println("Veuillez saisir le code");
-			pizza.setCode(scanner.nextLine());
+			pizza.setCode(scanner.nextLine().trim().toUpperCase());
 			
 			if(pizza.getCode().length() != 3) {
-				throw new UpdatePizzaException("Length must equal 3");
+				throw new UpdatePizzaException("code must have 3 characters");
 			}
 
 			System.out.println("Veuillez saisir le nom (sans espace)");
-			pizza.setName(scanner.nextLine());
+			pizza.setName(scanner.nextLine().trim());
 			
 			if(pizza.getName().contains(" ")) {
 				throw new UpdatePizzaException("The name must not contain space.");
@@ -73,7 +81,11 @@ public class ModifierPizzaOptionMenu extends OptionMenu {
 			try {
 				pizza.setPrice(Double.parseDouble(scanner.nextLine()));
 			} catch (NumberFormatException ex) {
-				throw new UpdatePizzaException(ex.getMessage());
+				throw new UpdatePizzaException("The price must be a number");
+			}
+			
+			if(pizza.getPrice() <= 0.0) {
+				throw new UpdatePizzaException("The price cannot be null or negative");
 			}
 			
 			done = this.getPizzaDao().updatePizza(code, pizza);

@@ -1,5 +1,7 @@
 package fr.pizzeria.ihm;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 import fr.pizzeria.dao.PizzaDaoImpl;
@@ -7,7 +9,7 @@ import fr.pizzeria.exception.StockageException;
 
 public class Menu {
 	
-	private OptionMenu[] actions;
+	private Map<Integer, OptionMenu> actions;
 	private final String TITLE = "***** Pizzeria Administration *****\r\n";
 	private PizzaDaoImpl pizzaDaoImpl;
 	private Scanner questionUser;
@@ -16,70 +18,50 @@ public class Menu {
 	public Menu() {
 		this.pizzaDaoImpl = new PizzaDaoImpl();
 		this.questionUser = new Scanner(System.in);
-		actions = new OptionMenu[4];
+		actions = new HashMap<Integer, OptionMenu>();
 		addOptionMenu();
 	}
 	
 	private void addOptionMenu() {
-		getActions()[0] = new ListerPizzasOptionMenu(pizzaDaoImpl);
-		getActions()[1] = new AjouterPizzaOptionMenu(pizzaDaoImpl, questionUser);
-		getActions()[2] = new ModifierPizzaOptionMenu(pizzaDaoImpl, questionUser);
-		getActions()[3] = new SupprimerPizzaOptionMenu(pizzaDaoImpl, questionUser);
+		getActions().put(1, new ListerPizzasOptionMenu(pizzaDaoImpl));
+		getActions().put(2, new AjouterPizzaOptionMenu(pizzaDaoImpl, questionUser));
+		getActions().put(3, new ModifierPizzaOptionMenu(pizzaDaoImpl, questionUser));
+		getActions().put(4, new SupprimerPizzaOptionMenu(pizzaDaoImpl, questionUser));
 	}
 	
 	
 	public void afficher() {
 
-		int choice = 0 ; 
-		boolean want = true;
-		while(want) {
+		int choice = 0 ;
+		while(choice != 99) {
 			
 			System.out.println(this.getTitle());
-			for(OptionMenu optionMenu: getActions()) {
-				System.out.print(optionMenu.getLibelle());
+			for(Integer nb : getActions().keySet()) {
+				System.out.print(getActions().get(nb).getLibelle());
 			}
 			System.out.println("99. Sortir");
 			choice = Integer.parseInt(questionUser.nextLine());
 			try {
-				switch (choice) {
-				case 1:
-					this.getActions()[0].execute();
-					break;
-				case 2:
-					this.getActions()[0].execute();
-
-					this.getActions()[1].execute();
-
-					break;
-				case 3:
-					this.getActions()[0].execute();
-					this.getActions()[2].execute();
-					break;
-				case 4:
-					this.getActions()[0].execute();
-					this.getActions()[3].execute();
-					break;
-				case 99:
-					System.out.println("Bye...");
-					want = false;
-					break;
-				default:
+				if(choice > 1 && choice < 5){
+					this.getActions().get(choice).execute();
 				}
+				
 			} catch (StockageException e) {
 				System.out.println(e.getMessage());
 			}
 		}
+		System.out.println("Bye...");
 		
 		if(questionUser != null) {
 			questionUser.close();
 		}
 	}
 
-	public OptionMenu[] getActions() {
+	public Map<Integer, OptionMenu> getActions() {
 		return actions;
 	}
 
-	public void setActions(OptionMenu[] actions) {
+	public void setActions(Map<Integer, OptionMenu> actions) {
 		this.actions = actions;
 	}
 

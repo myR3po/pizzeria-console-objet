@@ -46,7 +46,7 @@ public class Pizza {
 	public void setCode(String code) {
 		this.code = code;
 	}
-
+	
 	@Override
 	public String toString() {
 		return code + " -> " + name + " (" + price + "\u20ac)";

@@ -45,12 +45,23 @@ public class SupprimerPizzaOptionMenu extends OptionMenu{
 	public boolean execute() throws DeletePizzaException {
 		String code = null;
 		boolean done = false ;
+		
+		for(Pizza pizza : this.getPizzaDao().findAllPizzas()) {
+			if(pizza != null) {
+				System.out.println(pizza);
+			}
+		}
+		System.out.println();
 
 		System.out.println("Veuillez choisir le code de la pizza à supprimer");
 		System.out.println("(99 pour abandonner)");
 		code = scanner.nextLine();
-
+		
 		if (!code.equals("99")) {
+			
+			if(code.trim().length() != 3) {
+				throw new DeletePizzaException("It's not a code");
+			}
 			
 			done = this.getPizzaDao().deletePizza(code);
 			
