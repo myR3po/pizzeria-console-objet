@@ -6,7 +6,12 @@ import fr.pizzeria.model.CategoryPizza;
 import fr.pizzeria.model.Pizza;
 import fr.pizzeria.dao.IPizzaDao;
 import fr.pizzeria.exception.UpdatePizzaException;
-
+/**
+ * Cette classe permet à l'utilisateur de modifier un objet Pizza
+ * 
+ * @author myR3po
+ *
+ */
 public class ModifierPizzaOptionMenu extends OptionMenu {
 
 	private Scanner scanner;

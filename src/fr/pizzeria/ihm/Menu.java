@@ -4,32 +4,46 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+import fr.pizzeria.dao.IPizzaDao;
 import fr.pizzeria.dao.PizzaDaoImpl;
 import fr.pizzeria.exception.StockageException;
 
+/**
+ * Cette classe permet la gestion du menu
+ * 
+ * Elle permet l'interaction en l'utilisateur et l'application
+ * 
+ * @author myR3po
+ *
+ */
 public class Menu {
 	
 	private Map<Integer, OptionMenu> actions;
 	private final String TITLE = "***** Pizzeria Administration *****\r\n";
-	private PizzaDaoImpl pizzaDaoImpl;
+	private IPizzaDao pizzaDao;
 	private Scanner questionUser;
 	
 	
 	public Menu() {
-		this.pizzaDaoImpl = new PizzaDaoImpl();
+		this.pizzaDao = new PizzaDaoImpl();
 		this.questionUser = new Scanner(System.in);
 		actions = new HashMap<Integer, OptionMenu>();
 		addOptionMenu();
 	}
 	
+	/**
+	 * Cette méthode permet d'ajouter les différentes actions
+	 * 
+	 * @see OptionMenu
+	 */
 	private void addOptionMenu() {
-		getActions().put(1, new ListerPizzasOptionMenu(pizzaDaoImpl));
-		getActions().put(2, new AjouterPizzaOptionMenu(pizzaDaoImpl, questionUser));
-		getActions().put(3, new ModifierPizzaOptionMenu(pizzaDaoImpl, questionUser));
-		getActions().put(4, new SupprimerPizzaOptionMenu(pizzaDaoImpl, questionUser));
+		getActions().put(1, new ListerPizzasOptionMenu(pizzaDao));
+		getActions().put(2, new AjouterPizzaOptionMenu(pizzaDao, questionUser));
+		getActions().put(3, new ModifierPizzaOptionMenu(pizzaDao, questionUser));
+		getActions().put(4, new SupprimerPizzaOptionMenu(pizzaDao, questionUser));
 	}
 	
-	
+
 	public void afficher() {
 
 		int choice = 0 ;

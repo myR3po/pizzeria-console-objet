@@ -2,7 +2,12 @@ package fr.pizzeria.ihm;
 
 import fr.pizzeria.dao.IPizzaDao;
 import fr.pizzeria.model.Pizza;
-
+/**
+ * Cette classe permet de lister tous les objets Pizza
+ * 
+ * @author myR3po
+ *
+ */
 public class ListerPizzasOptionMenu extends OptionMenu {
 	private IPizzaDao pizzaDao;
 	

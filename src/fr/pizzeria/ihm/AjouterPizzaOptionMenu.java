@@ -6,7 +6,12 @@ import fr.pizzeria.dao.IPizzaDao;
 import fr.pizzeria.exception.SavePizzaException;
 import fr.pizzeria.model.CategoryPizza;
 import fr.pizzeria.model.Pizza;
-
+/**
+ * Cette classe permet à l'utilisateur d'ajouter un objet Pizza
+ * 
+ * @author myR3po
+ *
+ */
 public class AjouterPizzaOptionMenu extends OptionMenu {
 
 	private Scanner scanner;

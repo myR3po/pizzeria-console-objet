@@ -6,6 +6,15 @@ import java.util.List;
 import fr.pizzeria.model.CategoryPizza;
 import fr.pizzeria.model.Pizza;
 
+/**
+ * Cette classe implémente l'interface
+ * 
+ * Elle permet la sauvegarde en mémoire.
+ * 
+ * @author myR3po
+ * @see IPizzaDao
+ *
+ */
 public class PizzaDaoImpl implements IPizzaDao{
 
 	private List<Pizza> pizzas ;

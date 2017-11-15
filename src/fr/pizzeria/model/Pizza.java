@@ -2,9 +2,15 @@ package fr.pizzeria.model;
 
 import java.lang.reflect.Field;
 
+/**
+ * Cette classe permet de représenter une pizza
+ * 
+ * @author myR3po
+ *
+ */
 public class Pizza {
-
-	private static int count;
+	
+	private static int count; //attribue la valeur de l'id 
 	private int id;
 	@ToString(uppercase = true)
 	private String code;
@@ -72,48 +78,25 @@ public class Pizza {
 		
 		StringBuilder stringBuilder = new StringBuilder();
 		for(Field field : this.getClass().getDeclaredFields()) {
-			ToString ts = (ToString) field.getAnnotation(ToString.class);
-			if(ts != null) {
-				switch(field.getName()) {
-				case "id":
-					stringBuilder.append(id);
-					stringBuilder.append(" : ");
-					break;
-				case "code":
-					if(ts.uppercase()) {
-						stringBuilder.append(code.toUpperCase());
-					}
-					else {
-						stringBuilder.append(code);
-					}
-					stringBuilder.append(" -> ");
-					break;
-				case "name":
-					if(ts.uppercase()) {
-						stringBuilder.append(name.toUpperCase());
-					}
-					else {
-						stringBuilder.append(name);
-					}
-					break;
-				case "price":
-					stringBuilder.append(" (");
-					stringBuilder.append(price);
-					stringBuilder.append("\u20ac)");
-					break;
-				case "category":
-					stringBuilder.append("\n");
-					if(ts.uppercase()) {
-						stringBuilder.append(category.getValue().toUpperCase());
-					}
-					else {
-						stringBuilder.append(category.getValue());
-					}
-					break;
+			if(field.isAnnotationPresent(ToString.class)) {
+				Object value = null;
+				try {
+					value = field.get(this);
+				} catch (IllegalArgumentException | IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
+				ToString ts = (ToString) field.getAnnotation(ToString.class);
+				stringBuilder.append(field.getName() + ":");
+				if(value != null && value instanceof String && ts.uppercase()) {
+					stringBuilder.append(((String) value).toUpperCase());
+				}
+				else {
+					stringBuilder.append(value);
+				}
+				stringBuilder.append(" ");
 			}
 		}
-
 		return stringBuilder.toString();
 	}
 	

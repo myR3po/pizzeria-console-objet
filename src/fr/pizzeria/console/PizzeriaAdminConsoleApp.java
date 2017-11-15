@@ -2,6 +2,11 @@ package fr.pizzeria.console;
 
 import fr.pizzeria.ihm.Menu;
 
+/**
+ * 
+ * @author myR3po
+ *
+ */
 public class PizzeriaAdminConsoleApp {
 
 	private Menu menu;

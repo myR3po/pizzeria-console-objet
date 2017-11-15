@@ -6,6 +6,12 @@ import fr.pizzeria.dao.IPizzaDao;
 import fr.pizzeria.exception.DeletePizzaException;
 import fr.pizzeria.model.Pizza;
 
+/**
+ * Cette classe permet à l'utilisateur de supprimer un objet Pizza
+ * 
+ * @author myR3po
+ *
+ */
 public class SupprimerPizzaOptionMenu extends OptionMenu{
 
 	private Scanner scanner;
@@ -16,6 +22,7 @@ public class SupprimerPizzaOptionMenu extends OptionMenu{
 		this.pizzaDao = pizzaDao;
 		this.setScanner(scanner);
 	}
+
 
 	public boolean execute() throws DeletePizzaException {
 		String code = null;
