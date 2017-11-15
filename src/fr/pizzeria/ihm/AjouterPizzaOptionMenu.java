@@ -4,18 +4,17 @@ import java.util.Scanner;
 
 import fr.pizzeria.dao.IPizzaDao;
 import fr.pizzeria.exception.SavePizzaException;
+import fr.pizzeria.model.CategoryPizza;
 import fr.pizzeria.model.Pizza;
 
 public class AjouterPizzaOptionMenu extends OptionMenu {
-	
-	private Pizza[] pizzas;
+
 	private Scanner scanner;
 	private IPizzaDao pizzaDao;
 	
 
 	public AjouterPizzaOptionMenu(IPizzaDao pizzaDao, Scanner scanner) {
 		this.libelle = "2. Ajouter une nouvelle pizza\r";
-		
 		this.pizzaDao = pizzaDao;
 		this.setScanner(scanner);
 	}
@@ -43,6 +42,31 @@ public class AjouterPizzaOptionMenu extends OptionMenu {
 		if(pizza.getName().contains(" ")) {
 			throw new SavePizzaException("The name must not contain space");
 		}
+				
+		System.out.println("Veuillez choisir catégorie\n"
+				+ "1. Viande\n"
+				+ "2. Poisson\n"
+				+ "3. Sans viande\n");
+		int choix = 0;
+		try {
+			choix = Integer.parseInt(scanner.nextLine().trim());
+		} catch (NumberFormatException ex) {
+			throw new SavePizzaException("You must enter a integer(eg. 1 or 2)");
+		}
+		
+		switch(choix) {
+		case 1:
+			pizza.setCategory(CategoryPizza.VIANDE);
+			break;
+		case 2:
+			pizza.setCategory(CategoryPizza.POISSON);
+			break;
+		case 3:
+			pizza.setCategory(CategoryPizza.SANS_VIANDE);
+			break;
+			default:
+				throw new SavePizzaException("Invalid choice");
+		}
 		
 		System.out.println("Veuillez saisir le prix");
 
@@ -65,14 +89,6 @@ public class AjouterPizzaOptionMenu extends OptionMenu {
 		return done;
 	}
 	
-	public Pizza[] getPizzas() {
-		return pizzas;
-	}
-
-	public void setPizzas(Pizza[] pizzas) {
-		this.pizzas = pizzas;
-	}
-
 	public Scanner getScanner() {
 		return scanner;
 	}

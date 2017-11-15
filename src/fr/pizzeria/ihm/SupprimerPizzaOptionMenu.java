@@ -7,8 +7,7 @@ import fr.pizzeria.exception.DeletePizzaException;
 import fr.pizzeria.model.Pizza;
 
 public class SupprimerPizzaOptionMenu extends OptionMenu{
-	
-	private Pizza[] pizzas;
+
 	private Scanner scanner;
 	private IPizzaDao pizzaDao;
 	
@@ -16,30 +15,6 @@ public class SupprimerPizzaOptionMenu extends OptionMenu{
 		this.libelle = "4. Supprimer une pizza\r";
 		this.pizzaDao = pizzaDao;
 		this.setScanner(scanner);
-	}
-
-	public Pizza[] getPizzas() {
-		return pizzas;
-	}
-
-	public void setPizzas(Pizza[] pizzas) {
-		this.pizzas = pizzas;
-	}
-
-	public Scanner getScanner() {
-		return scanner;
-	}
-
-	public void setScanner(Scanner scanner) {
-		this.scanner = scanner;
-	}
-	
-	public IPizzaDao getPizzaDao() {
-		return pizzaDao;
-	}
-
-	public void setPizzaDao(IPizzaDao pizzaDao) {
-		this.pizzaDao = pizzaDao;
 	}
 
 	public boolean execute() throws DeletePizzaException {
@@ -60,7 +35,7 @@ public class SupprimerPizzaOptionMenu extends OptionMenu{
 		if (!code.equals("99")) {
 			
 			if(code.trim().length() != 3) {
-				throw new DeletePizzaException("It's not a code");
+				throw new DeletePizzaException("Invalid code");
 			}
 			
 			done = this.getPizzaDao().deletePizza(code);
@@ -72,4 +47,21 @@ public class SupprimerPizzaOptionMenu extends OptionMenu{
 		
 		return done;
 	}
+
+	public Scanner getScanner() {
+		return scanner;
+	}
+
+	public void setScanner(Scanner scanner) {
+		this.scanner = scanner;
+	}
+	
+	public IPizzaDao getPizzaDao() {
+		return pizzaDao;
+	}
+
+	public void setPizzaDao(IPizzaDao pizzaDao) {
+		this.pizzaDao = pizzaDao;
+	}
+
 }

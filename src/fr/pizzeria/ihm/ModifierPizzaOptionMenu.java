@@ -2,44 +2,19 @@ package fr.pizzeria.ihm;
 
 import java.util.Scanner;
 
+import fr.pizzeria.model.CategoryPizza;
 import fr.pizzeria.model.Pizza;
 import fr.pizzeria.dao.IPizzaDao;
-import fr.pizzeria.exception.SavePizzaException;
 import fr.pizzeria.exception.UpdatePizzaException;
 
 public class ModifierPizzaOptionMenu extends OptionMenu {
 
-	private Pizza[] pizzas;
 	private Scanner scanner;
 	private IPizzaDao pizzaDao;
 
 	public ModifierPizzaOptionMenu(IPizzaDao pizzaDao, Scanner scanner) {
 		this.libelle = "3. Mettre à jour une pizza\r";
 		this.setScanner(scanner);
-		this.pizzaDao = pizzaDao;
-	}
-
-	public Pizza[] getPizzas() {
-		return pizzas;
-	}
-
-	public void setPizzas(Pizza[] pizzas) {
-		this.pizzas = pizzas;
-	}
-
-	public Scanner getScanner() {
-		return scanner;
-	}
-
-	public void setScanner(Scanner scanner) {
-		this.scanner = scanner;
-	}
-
-	public IPizzaDao getPizzaDao() {
-		return pizzaDao;
-	}
-
-	public void setPizzaDao(IPizzaDao pizzaDao) {
 		this.pizzaDao = pizzaDao;
 	}
 
@@ -75,6 +50,31 @@ public class ModifierPizzaOptionMenu extends OptionMenu {
 			if(pizza.getName().contains(" ")) {
 				throw new UpdatePizzaException("The name must not contain space.");
 			}
+			
+			System.out.println("Veuillez choisir catégorie\n"
+					+ "1. Viande\n"
+					+ "2. Poisson\n"
+					+ "3. Sans viande\n");
+			int choix = 0;
+			try {
+				choix = Integer.parseInt(scanner.nextLine().trim());
+			} catch (NumberFormatException ex) {
+				throw new UpdatePizzaException("You must enter a integer(eg. 1 or 2)");
+			}
+			
+			switch(choix) {
+			case 1:
+				pizza.setCategory(CategoryPizza.VIANDE);
+				break;
+			case 2:
+				pizza.setCategory(CategoryPizza.POISSON);
+				break;
+			case 3:
+				pizza.setCategory(CategoryPizza.SANS_VIANDE);
+				break;
+				default:
+					throw new UpdatePizzaException("Invalid choice");
+			}
 
 			System.out.println("Veuillez saisir le prix");
 			
@@ -98,5 +98,21 @@ public class ModifierPizzaOptionMenu extends OptionMenu {
 
 		return true;
 
+	}
+	
+	public Scanner getScanner() {
+		return scanner;
+	}
+
+	public void setScanner(Scanner scanner) {
+		this.scanner = scanner;
+	}
+
+	public IPizzaDao getPizzaDao() {
+		return pizzaDao;
+	}
+
+	public void setPizzaDao(IPizzaDao pizzaDao) {
+		this.pizzaDao = pizzaDao;
 	}
 }

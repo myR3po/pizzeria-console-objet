@@ -7,6 +7,7 @@ public class Pizza {
 	private String code;
 	private String name;
 	private double price;
+	private CategoryPizza category;
 	
 	public Pizza() {
 		
@@ -17,6 +18,11 @@ public class Pizza {
 		this.name = name;
 		this.price = price;
 		this.id = Pizza.count++;
+	}
+	
+	public Pizza(String code, String name, CategoryPizza category, double price) {
+		this(code, name, price);
+		this.category  = category; 
 	}
 
 	public int getId() {
@@ -47,9 +53,17 @@ public class Pizza {
 		this.code = code;
 	}
 	
+	public CategoryPizza getCategory() {
+		return category;
+	}
+
+	public void setCategory(CategoryPizza category) {
+		this.category = category;
+	}
+
 	@Override
 	public String toString() {
-		return code + " -> " + name + " (" + price + "\u20ac)";
+		return code + " -> " + name + " (" + price + "\u20ac)" + " \n" + category.getValue();
 	}
 	
 	

@@ -67,12 +67,9 @@ public class PizzaDaoImpl implements IPizzaDao{
 		return done;
 	}
 	
-	public List<Pizza> getPizzas() {
+	private List<Pizza> getPizzas() {
 		return pizzas;
 	}
 
-	public void setPizzaArray(List<Pizza> pizzas) {
-		this.pizzas = pizzas;
-	}
 
 }

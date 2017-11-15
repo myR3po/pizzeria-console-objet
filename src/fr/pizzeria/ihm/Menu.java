@@ -42,7 +42,7 @@ public class Menu {
 			System.out.println("99. Sortir");
 			choice = Integer.parseInt(questionUser.nextLine());
 			try {
-				if(choice > 1 && choice < 5){
+				if(choice > 0 && choice < 5){
 					this.getActions().get(choice).execute();
 				}
 				

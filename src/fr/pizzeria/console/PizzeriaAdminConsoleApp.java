@@ -3,7 +3,7 @@ package fr.pizzeria.console;
 import fr.pizzeria.ihm.Menu;
 
 public class PizzeriaAdminConsoleApp {
-	
+
 	private Menu menu;
 
 	public PizzeriaAdminConsoleApp() {
@@ -16,6 +16,6 @@ public class PizzeriaAdminConsoleApp {
 	
 	public static void main(String[] args) {
 		PizzeriaAdminConsoleApp pizzeriaAdminConsoleApp = new PizzeriaAdminConsoleApp();
-		pizzeriaAdminConsoleApp.launch();		
+		pizzeriaAdminConsoleApp.launch();
 	}
 }

@@ -4,7 +4,6 @@ import fr.pizzeria.dao.IPizzaDao;
 import fr.pizzeria.model.Pizza;
 
 public class ListerPizzasOptionMenu extends OptionMenu {
-	private Pizza[] pizzas;
 	private IPizzaDao pizzaDao;
 	
 	public ListerPizzasOptionMenu(IPizzaDao pizzaDao) {
@@ -23,21 +22,9 @@ public class ListerPizzasOptionMenu extends OptionMenu {
 		return true;
 	}
 
-
-	public Pizza[] getPizzas() {
-		return pizzas;
-	}
-
-
-	public void setPizzas(Pizza[] pizzas) {
-		this.pizzas = pizzas;
-	}
-
-
 	public IPizzaDao getPizzaDao() {
 		return pizzaDao;
 	}
-
 
 	public void setPizzaDao(IPizzaDao pizzaDao) {
 		this.pizzaDao = pizzaDao;
