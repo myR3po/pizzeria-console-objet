@@ -38,7 +38,7 @@ public class ModifierPizzaOptionMenu extends OptionMenu {
 			pizza = new Pizza();
 
 			System.out.println("Veuillez saisir le code");
-			pizza.setCode(scanner.nextLine().trim().toUpperCase());
+			pizza.setCode(scanner.nextLine().trim());
 			
 			if(pizza.getCode().length() != 3) {
 				throw new UpdatePizzaException("code must have 3 characters");

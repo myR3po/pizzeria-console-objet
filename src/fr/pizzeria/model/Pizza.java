@@ -1,12 +1,18 @@
 package fr.pizzeria.model;
 
+import java.lang.reflect.Field;
+
 public class Pizza {
 
 	private static int count;
 	private int id;
+	@ToString(uppercase = true)
 	private String code;
+	@ToString
 	private String name;
+	@ToString
 	private double price;
+	@ToString(uppercase = true)
 	private CategoryPizza category;
 	
 	public Pizza() {
@@ -60,11 +66,55 @@ public class Pizza {
 	public void setCategory(CategoryPizza category) {
 		this.category = category;
 	}
-
+	
 	@Override
 	public String toString() {
-		return code + " -> " + name + " (" + price + "\u20ac)" + " \n" + category.getValue();
+		
+		StringBuilder stringBuilder = new StringBuilder();
+		for(Field field : this.getClass().getDeclaredFields()) {
+			ToString ts = (ToString) field.getAnnotation(ToString.class);
+			if(ts != null) {
+				switch(field.getName()) {
+				case "id":
+					stringBuilder.append(id);
+					stringBuilder.append(" : ");
+					break;
+				case "code":
+					if(ts.uppercase()) {
+						stringBuilder.append(code.toUpperCase());
+					}
+					else {
+						stringBuilder.append(code);
+					}
+					stringBuilder.append(" -> ");
+					break;
+				case "name":
+					if(ts.uppercase()) {
+						stringBuilder.append(name.toUpperCase());
+					}
+					else {
+						stringBuilder.append(name);
+					}
+					break;
+				case "price":
+					stringBuilder.append(" (");
+					stringBuilder.append(price);
+					stringBuilder.append("\u20ac)");
+					break;
+				case "category":
+					stringBuilder.append("\n");
+					if(ts.uppercase()) {
+						stringBuilder.append(category.getValue().toUpperCase());
+					}
+					else {
+						stringBuilder.append(category.getValue());
+					}
+					break;
+				}
+			}
+		}
+
+		return stringBuilder.toString();
 	}
-	
 	
 }
