@@ -4,7 +4,9 @@ import java.util.Scanner;
 
 import fr.pizzeria.model.CategoryPizza;
 import fr.pizzeria.model.Pizza;
+import fr.pizzeria.util.UserInputHelper;
 import fr.pizzeria.dao.IPizzaDao;
+import fr.pizzeria.exception.SavePizzaException;
 import fr.pizzeria.exception.UpdatePizzaException;
 /**
  * Cette classe permet à l'utilisateur de modifier un objet Pizza
@@ -41,57 +43,9 @@ public class ModifierPizzaOptionMenu extends OptionMenu {
 
 		if (!code.equals("99")) {
 			pizza = new Pizza();
-
-			System.out.println("Veuillez saisir le code");
-			pizza.setCode(scanner.nextLine().trim());
 			
-			if(pizza.getCode().length() != 3) {
-				throw new UpdatePizzaException("code must have 3 characters");
-			}
-
-			System.out.println("Veuillez saisir le nom (sans espace)");
-			pizza.setName(scanner.nextLine().trim());
-			
-			if(pizza.getName().contains(" ")) {
-				throw new UpdatePizzaException("The name must not contain space.");
-			}
-			
-			System.out.println("Veuillez choisir catégorie\n"
-					+ "1. Viande\n"
-					+ "2. Poisson\n"
-					+ "3. Sans viande\n");
-			int choix = 0;
-			try {
-				choix = Integer.parseInt(scanner.nextLine().trim());
-			} catch (NumberFormatException ex) {
-				throw new UpdatePizzaException("You must enter a integer(eg. 1 or 2)");
-			}
-			
-			switch(choix) {
-			case 1:
-				pizza.setCategory(CategoryPizza.VIANDE);
-				break;
-			case 2:
-				pizza.setCategory(CategoryPizza.POISSON);
-				break;
-			case 3:
-				pizza.setCategory(CategoryPizza.SANS_VIANDE);
-				break;
-				default:
-					throw new UpdatePizzaException("Invalid choice");
-			}
-
-			System.out.println("Veuillez saisir le prix");
-			
-			try {
-				pizza.setPrice(Double.parseDouble(scanner.nextLine()));
-			} catch (NumberFormatException ex) {
-				throw new UpdatePizzaException("The price must be a number");
-			}
-			
-			if(pizza.getPrice() <= 0.0) {
-				throw new UpdatePizzaException("The price cannot be null or negative");
-			}
+			UserInputHelper<UpdatePizzaException> userInputHelper = new UserInputHelper<UpdatePizzaException>(scanner);
+			pizza = userInputHelper.getUserInput();
 			
 			done = this.getPizzaDao().updatePizza(code, pizza);
 

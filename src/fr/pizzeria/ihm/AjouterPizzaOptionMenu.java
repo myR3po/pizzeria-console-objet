@@ -4,8 +4,8 @@ import java.util.Scanner;
 
 import fr.pizzeria.dao.IPizzaDao;
 import fr.pizzeria.exception.SavePizzaException;
-import fr.pizzeria.model.CategoryPizza;
 import fr.pizzeria.model.Pizza;
+import fr.pizzeria.util.UserInputHelper;
 /**
  * Cette classe permet à l'utilisateur d'ajouter un objet Pizza
  * 
@@ -34,56 +34,9 @@ public class AjouterPizzaOptionMenu extends OptionMenu {
 		}
 		System.out.println();
 		
-		System.out.println("Veuillez saisir le code");
-		pizza.setCode(scanner.nextLine().trim());
+		UserInputHelper<SavePizzaException> userInputHelper = new UserInputHelper<SavePizzaException>(scanner);
 		
-		if(pizza.getCode().length() != 3) {
-			throw new SavePizzaException("code must have 3 characters");
-		}
-
-		System.out.println("Veuillez saisir le nom (sans espace)");
-		pizza.setName(scanner.nextLine().trim());
-		
-		if(pizza.getName().contains(" ")) {
-			throw new SavePizzaException("The name must not contain space");
-		}
-				
-		System.out.println("Veuillez choisir catégorie\n"
-				+ "1. Viande\n"
-				+ "2. Poisson\n"
-				+ "3. Sans viande\n");
-		int choix = 0;
-		try {
-			choix = Integer.parseInt(scanner.nextLine().trim());
-		} catch (NumberFormatException ex) {
-			throw new SavePizzaException("You must enter a integer(eg. 1 or 2)");
-		}
-		
-		switch(choix) {
-		case 1:
-			pizza.setCategory(CategoryPizza.VIANDE);
-			break;
-		case 2:
-			pizza.setCategory(CategoryPizza.POISSON);
-			break;
-		case 3:
-			pizza.setCategory(CategoryPizza.SANS_VIANDE);
-			break;
-			default:
-				throw new SavePizzaException("Invalid choice");
-		}
-		
-		System.out.println("Veuillez saisir le prix");
-
-		try {
-			pizza.setPrice(Double.parseDouble(scanner.nextLine()));
-		} catch (NumberFormatException ex) {
-			throw new SavePizzaException("The price must be a number");
-		}
-		
-		if(pizza.getPrice() < 0.0) {
-			throw new SavePizzaException("The price cannot be null or negative");
-		}
+		pizza = userInputHelper.getUserInput();
 		
 		boolean done = getPizzaDao().saveNewPizza(pizza);
 		

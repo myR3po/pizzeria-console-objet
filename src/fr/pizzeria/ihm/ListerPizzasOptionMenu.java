@@ -18,9 +18,7 @@ public class ListerPizzasOptionMenu extends OptionMenu {
 
 	public boolean execute() {
 		for(Pizza pizza : this.getPizzaDao().findAllPizzas()) {
-			if(pizza != null) {
 				System.out.println(pizza);
-			}
 		}
 		System.out.println();
 		

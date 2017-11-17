@@ -1,6 +1,5 @@
 package fr.pizzeria.util;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Scanner;
 
 import fr.pizzeria.exception.StockageException;
@@ -17,43 +16,37 @@ public class UserInputHelper<T extends StockageException> {
 		this.scanner = scanner;
 	}
 
-	public Pizza getUserInput() throws StockageException {
+	public Pizza getUserInput() throws T  {
 		Pizza pizza = new Pizza();
 
-		try {
 			codeInput(pizza);
 			nameInput(pizza);
 			categoryInput(pizza);
 			priceInput(pizza);
-		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
-				| NoSuchMethodException | SecurityException e) {
-			e.printStackTrace();
-		}
 
 		System.out.println(pizza);
 		return pizza;
 	}
 
-	private void nameInput(Pizza pizza) throws InstantiationException, IllegalAccessException, IllegalArgumentException,
-			InvocationTargetException, NoSuchMethodException, SecurityException, StockageException {
+	@SuppressWarnings("unchecked")
+	private void nameInput(Pizza pizza) throws T {
 
 		System.out.println("Veuillez saisir le nom (sans espace)");
 		pizza.setName(scanner.nextLine().trim());
 
-		if (pizza.getName().contains(" ")) {
-			throw exception.getClass().getConstructor(String.class).newInstance("The name must not contain space");
+		if (!pizza.getName().matches("[a-zA-Z]")){
+			throw (T) new StockageException("The name contains an invalid character");
 		}
 	}
 
-	private void categoryInput(Pizza pizza)
-			throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException,
-			NoSuchMethodException, SecurityException, StockageException {
+	@SuppressWarnings("unchecked")
+	private void categoryInput(Pizza pizza) throws T {
 		System.out.println("Veuillez choisir catégorie\n" + "1. Viande\n" + "2. Poisson\n" + "3. Sans viande\n");
 		int choix = 0;
 		try {
 			choix = Integer.parseInt(scanner.nextLine().trim());
 		} catch (NumberFormatException ex) {
-			throw exception.getClass().getConstructor(String.class).newInstance("You must enter a integer(eg. 1 or 2)");
+			throw (T) new StockageException("You must enter a integer(eg. 1 or 2...)");
 		}
 
 		switch (choix) {
@@ -67,34 +60,37 @@ public class UserInputHelper<T extends StockageException> {
 			pizza.setCategory(CategoryPizza.SANS_VIANDE);
 			break;
 		default:
-			// throw new savepizzaexception("Invalid choice");
+			 throw (T) new StockageException("Invalid choice");
 		}
 	}
 
-	private void codeInput(Pizza pizza) throws InstantiationException, IllegalAccessException, IllegalArgumentException,
-			InvocationTargetException, NoSuchMethodException, SecurityException, StockageException {
+	@SuppressWarnings("unchecked")
+	private void codeInput(Pizza pizza) throws T {
 		System.out.println("Veuillez saisir le code");
 		pizza.setCode(scanner.nextLine().trim().toUpperCase());
-
+		
+		if(!pizza.getCode().matches("[a-zA-Z]")) {
+			throw (T) new StockageException("code contains an invalid character");
+		}
+		
 		if (pizza.getCode().length() != 3) {
-			throw exception.getClass().getConstructor(String.class).newInstance("code must have 3 characters");
+			throw (T) new StockageException("code must have 3 characters");
 		}
 	}
 
-	private void priceInput(Pizza pizza)
-			throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException,
-			NoSuchMethodException, SecurityException, StockageException {
+	@SuppressWarnings("unchecked")
+	private void priceInput(Pizza pizza) throws T {
 		System.out.println("Veuillez saisir le prix");
 
 		try {
 			pizza.setPrice(Double.parseDouble(scanner.nextLine()));
 		} catch (NumberFormatException ex) {
-			throw exception.getClass().getConstructor(String.class).newInstance("The price must be a number");
+			throw (T) new StockageException("The price must be a number");
 		}
 
 		if (pizza.getPrice() <= 0.0) {
 
-			throw exception.getClass().getConstructor(String.class).newInstance("The price cannot be null or negative");
+			throw (T) new StockageException("The price cannot be null or negative");
 		}
 	}
 }
