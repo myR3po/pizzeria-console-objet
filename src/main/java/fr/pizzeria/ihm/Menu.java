@@ -11,7 +11,7 @@ import fr.pizzeria.exception.StockageException;
 /**
  * Cette classe permet la gestion du menu
  * 
- * Elle permet l'interaction en l'utilisateur et l'application
+ * Elle permet l'interaction entre l'utilisateur et l'application
  * 
  * @author myR3po
  *
@@ -32,7 +32,7 @@ public class Menu {
 	}
 	
 	/**
-	 * Cette méthode permet d'ajouter les différentes actions
+	 * Cette mÃ©thode permet d'ajouter les diffÃ©rentes actions
 	 * 
 	 * @see OptionMenu
 	 */

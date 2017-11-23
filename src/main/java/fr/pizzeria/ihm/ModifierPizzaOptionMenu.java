@@ -9,7 +9,7 @@ import fr.pizzeria.dao.IPizzaDao;
 import fr.pizzeria.exception.SavePizzaException;
 import fr.pizzeria.exception.UpdatePizzaException;
 /**
- * Cette classe permet à l'utilisateur de modifier un objet Pizza
+ * Cette classe permet Ã  l'utilisateur de modifier un objet Pizza
  * 
  * @author myR3po
  *
@@ -20,7 +20,7 @@ public class ModifierPizzaOptionMenu extends OptionMenu {
 	private IPizzaDao pizzaDao;
 
 	public ModifierPizzaOptionMenu(IPizzaDao pizzaDao, Scanner scanner) {
-		this.libelle = "3. Mettre à jour une pizza\r";
+		this.libelle = "3. Mettre ï¿½ jour une pizza\r";
 		this.setScanner(scanner);
 		this.pizzaDao = pizzaDao;
 	}
@@ -37,7 +37,7 @@ public class ModifierPizzaOptionMenu extends OptionMenu {
 		}
 		System.out.println();
 
-		System.out.println("Veuillez choisir le code de la pizza à modifier");
+		System.out.println("Veuillez choisir le code de la pizza Ã  modifier");
 		System.out.println("(99 pour abandonner)");
 		code = scanner.nextLine();
 
