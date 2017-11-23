@@ -19,9 +19,9 @@ public abstract class OptionMenu {
 	}
 
 	/**
-	 * Cette méthode permet d'effectuer d'executer l'action
+	 * Cette mÃ©thode permet d'effectuer d'executer l'action
 	 *  
-	 * @return true si l'action a bien été effectuée, false sinon
+	 * @return true si l'action a bien Ã©tÃ© effectuÃ©e, false sinon
 	 * @throws StockageException
 	 */
 	

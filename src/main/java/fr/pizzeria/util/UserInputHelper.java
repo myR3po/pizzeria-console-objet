@@ -41,7 +41,7 @@ public class UserInputHelper<T extends StockageException> {
 
 	@SuppressWarnings("unchecked")
 	private void categoryInput(Pizza pizza) throws T {
-		System.out.println("Veuillez choisir catégorie\n" + "1. Viande\n" + "2. Poisson\n" + "3. Sans viande\n");
+		System.out.println("Veuillez choisir catÃ©gorie\n" + "1. Viande\n" + "2. Poisson\n" + "3. Sans viande\n");
 		int choix = 0;
 		try {
 			choix = Integer.parseInt(scanner.nextLine().trim());

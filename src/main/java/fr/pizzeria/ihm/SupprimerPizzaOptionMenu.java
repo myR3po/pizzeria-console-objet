@@ -7,7 +7,7 @@ import fr.pizzeria.exception.DeletePizzaException;
 import fr.pizzeria.model.Pizza;
 
 /**
- * Cette classe permet à l'utilisateur de supprimer un objet Pizza
+ * Cette classe permet Ã  l'utilisateur de supprimer un objet Pizza
  * 
  * @author myR3po
  *
@@ -35,7 +35,7 @@ public class SupprimerPizzaOptionMenu extends OptionMenu{
 		}
 		System.out.println();
 
-		System.out.println("Veuillez choisir le code de la pizza à supprimer");
+		System.out.println("Veuillez choisir le code de la pizza Ã  supprimer");
 		System.out.println("(99 pour abandonner)");
 		code = scanner.nextLine();
 		

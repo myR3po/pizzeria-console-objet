@@ -7,9 +7,9 @@ import fr.pizzeria.model.CategoryPizza;
 import fr.pizzeria.model.Pizza;
 
 /**
- * Cette classe implémente l'interface
+ * Cette classe implÃ©mente l'interface
  * 
- * Elle permet la sauvegarde en mémoire.
+ * Elle permet la sauvegarde en mÃ©moire.
  * 
  * @author myR3po
  * @see IPizzaDao
@@ -25,7 +25,7 @@ public class PizzaDaoImpl implements IPizzaDao{
 	}
 	
 	private void init() {		
-		pizzas.add(new Pizza("PEP", "Pépéroni", CategoryPizza.VIANDE, 12.50));
+		pizzas.add(new Pizza("PEP", "PÃ©pÃ©roni", CategoryPizza.VIANDE, 12.50));
 		pizzas.add(new Pizza("MAR", "Margherita", CategoryPizza.VIANDE, 14.00));
 		pizzas.add(new Pizza("REIN", "La Reine", CategoryPizza.VIANDE, 11.50));
 		pizzas.add(new Pizza("FRO", "Les 4 fromages", CategoryPizza.SANS_VIANDE, 12.00));

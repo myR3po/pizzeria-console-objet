@@ -3,7 +3,7 @@ package fr.pizzeria.model;
 import java.lang.reflect.Field;
 
 /**
- * Cette classe permet de représenter une pizza
+ * Cette classe permet de reprï¿½senter une pizza
  * 
  * @author myR3po
  *
@@ -83,7 +83,6 @@ public class Pizza {
 				try {
 					value = field.get(this);
 				} catch (IllegalArgumentException | IllegalAccessException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				ToString ts = (ToString) field.getAnnotation(ToString.class);

@@ -7,7 +7,7 @@ import fr.pizzeria.exception.SavePizzaException;
 import fr.pizzeria.model.Pizza;
 import fr.pizzeria.util.UserInputHelper;
 /**
- * Cette classe permet à l'utilisateur d'ajouter un objet Pizza
+ * Cette classe permet Ã  l'utilisateur d'ajouter un objet Pizza
  * 
  * @author myR3po
  *
