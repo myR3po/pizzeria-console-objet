@@ -1,21 +1,21 @@
 package fr.pizzeria.dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import fr.pizzeria.model.CategoryPizza;
 import fr.pizzeria.model.Pizza;
+import fr.pizzeria.util.ConnectionHandler;
 /**
  * Cette classe est l'implémentation du dao
+ * 
+ * Elle realise le CRUD à partir d'une base de données
  * 
  * @author myR3po
  * 
@@ -26,71 +26,40 @@ public class PizzaDaoJdbc implements IPizzaDao {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(PizzaDaoJdbc.class);
 	
-	private static final String FILE_PROPERTIES = "database";
-	private Connection connection;
+	private ConnectionHandler connectionHandler;
 	
 	protected Connection getConnection() {
-		return this.connection;
+		return this.connectionHandler.getConnection();
 	}
 	
 	public void closeConnection() {
-		if(this.getConnection() != null) {
-			try {
-				this.getConnection().close();
-			} catch (SQLException e) {
-				LOGGER.error(e.getMessage(),e);
-			}
-		}
+		this.connectionHandler.closeConnection();
 	}
 	
 	public PizzaDaoJdbc() {
-		init();
-	}
-
-	private void init() {
-		
-		ResourceBundle resourceBundle = ResourceBundle.getBundle(FILE_PROPERTIES);
-		String driver = resourceBundle.getString("database.driver");
-		String url = resourceBundle.getString("database.url");
-		String user = resourceBundle.getString("database.user");
-		String password = resourceBundle.getString("database.password");
-		
-		try {
-			Class.forName(driver);
-			connection = DriverManager.getConnection(url, user, password);
-		} catch (ClassNotFoundException | SQLException e) {
-			LOGGER.error(e.getMessage(),e);
-		}
-		
+		connectionHandler = ConnectionHandler.getInstance();
 	}
 	
 	@Override
 	public List<Pizza> findAllPizzas() {
 		List<Pizza> pizzas = null;
-		PreparedStatement pstmt = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultset = null;
 		try {
 			
 			String query = "SELECT CODE, NAME, PRICE, CATEGORIE FROM pizza;";
-			pstmt = this.getConnection().prepareStatement(query);
-			ResultSet rs = pstmt.executeQuery(query);
+			preparedStatement = this.getConnection().prepareStatement(query);
+			resultset = preparedStatement.executeQuery(query);
 			pizzas = new ArrayList<Pizza>();
-			while(rs.next()) {
-				pizzas.add(new Pizza(rs.getString("CODE"), rs.getString("NAME"), CategoryPizza.valueOf(rs.getString("CATEGORIE").toUpperCase()), rs.getDouble("PRICE")));
+			while(resultset.next()) {
+				pizzas.add(new Pizza(resultset.getString("CODE"), resultset.getString("NAME"), CategoryPizza.valueOf(resultset.getString("CATEGORIE").toUpperCase()), resultset.getDouble("PRICE")));
 			}
-			
-			rs.close();
-			pstmt.close();
+			connectionHandler.closeStatementAndResultSet(preparedStatement, resultset);
 		} catch (SQLException e) {
 			LOGGER.error(e.getMessage(),e);
 		}
 		finally {
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					LOGGER.error(e.getMessage(),e);
-				}
-			}
+			connectionHandler.closeStatementAndResultSet(preparedStatement, resultset);
 		}
 		
 		return pizzas;
@@ -98,90 +67,72 @@ public class PizzaDaoJdbc implements IPizzaDao {
 
 	@Override
 	public boolean saveNewPizza(Pizza pizza) {
-		PreparedStatement pstmt = null;
+		PreparedStatement preparedStatement = null;
 		boolean saved = false;
 		try {
 			
 			String query = "INSERT INTO pizza (CODE, NAME, CATEGORIE, PRICE) VALUES (?,?,?,?);";
-			pstmt = this.getConnection().prepareStatement(query);
+			preparedStatement = this.getConnection().prepareStatement(query);
 			
-			pstmt.setString(1, pizza.getCode());
-			pstmt.setString(2,pizza.getName());
-			pstmt.setString(3,pizza.getCategory().getValue());
-			pstmt.setDouble(4,pizza.getPrice());
+			preparedStatement.setString(1, pizza.getCode());
+			preparedStatement.setString(2,pizza.getName());
+			preparedStatement.setString(3,pizza.getCategory().getValue());
+			preparedStatement.setDouble(4,pizza.getPrice());
 			
-			saved = pstmt.executeUpdate() == 1? true : false;
-			pstmt.close();
+			saved = preparedStatement.executeUpdate() == 1? true : false;
+			connectionHandler.closeStatement(preparedStatement);
 		} catch (SQLException e) {
 			LOGGER.error(e.getMessage(),e);
 		}
 		finally {
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					LOGGER.error(e.getMessage(),e);
-				}
-			}
+			connectionHandler.closeStatement(preparedStatement);
 		}
 		return saved;
 	}
 
 	@Override
 	public boolean updatePizza(String codePizza, Pizza pizza) {
-		PreparedStatement pstmt = null;
+		PreparedStatement preparedStatement = null;
 		boolean saved = false;
 		try {
 			
 			String query1 = "UPDATE pizza SET CODE=?, NAME=?, CATEGORIE=?, PRICE=? WHERE CODE=? ;";
-			pstmt = this.getConnection().prepareStatement(query1);
+			preparedStatement = this.getConnection().prepareStatement(query1);
 			
-			pstmt.setString(1, pizza.getCode());
-			pstmt.setString(2, pizza.getName());
-			pstmt.setString(3, pizza.getCategory().getValue());
-			pstmt.setDouble(4, pizza.getPrice());
-			pstmt.setString(5, codePizza);
+			preparedStatement.setString(1, pizza.getCode());
+			preparedStatement.setString(2, pizza.getName());
+			preparedStatement.setString(3, pizza.getCategory().getValue());
+			preparedStatement.setDouble(4, pizza.getPrice());
+			preparedStatement.setString(5, codePizza);
 			
-			saved = pstmt.executeUpdate() == 1? true : false;
-			pstmt.close();
+			saved = preparedStatement.executeUpdate() == 1? true : false;
+			connectionHandler.closeStatement(preparedStatement);
 		} catch (SQLException e) {
 			LOGGER.error(e.getMessage(),e);
 		}
 		finally {
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					LOGGER.error(e.getMessage(),e);
-				}
-			}
+			connectionHandler.closeStatement(preparedStatement);
 		}
 		return saved;
 	}
 
 	@Override
 	public boolean deletePizza(String codePizza) {
-		PreparedStatement pstmt = null;
+		PreparedStatement preparedStatement = null;
 		boolean saved = false;
 		try {
 			
 			String query1 = "DELETE FROM pizza WHERE CODE = ?;";
-			pstmt = this.getConnection().prepareStatement(query1);
+			preparedStatement = this.getConnection().prepareStatement(query1);
 			
-			pstmt.setString(1, codePizza);
-			saved = pstmt.executeUpdate() == 1? true : false;
-			pstmt.close();
+			preparedStatement.setString(1, codePizza);
+			saved = preparedStatement.executeUpdate() == 1? true : false;
+			connectionHandler.closeStatement(preparedStatement);
 		} catch (SQLException e) {
 			LOGGER.error(e.getMessage(),e);
 		}
 		finally {
-			if(pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					LOGGER.error(e.getMessage(),e);
-				}
-			}
+			connectionHandler.closeStatement(preparedStatement);
 		}
 		return saved;
 	}
