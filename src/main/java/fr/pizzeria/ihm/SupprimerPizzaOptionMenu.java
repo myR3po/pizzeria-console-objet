@@ -18,7 +18,7 @@ public class SupprimerPizzaOptionMenu extends OptionMenu{
 	private IPizzaDao pizzaDao;
 	
 	public SupprimerPizzaOptionMenu(IPizzaDao pizzaDao, Scanner scanner) {
-		this.libelle = "4. Supprimer une pizza\r";
+		this.libelle = "4. Supprimer une pizza";
 		this.pizzaDao = pizzaDao;
 		this.setScanner(scanner);
 	}
@@ -30,13 +30,12 @@ public class SupprimerPizzaOptionMenu extends OptionMenu{
 		
 		for(Pizza pizza : this.getPizzaDao().findAllPizzas()) {
 			if(pizza != null) {
-				System.out.println(pizza);
+				LOGGER.info(pizza.toString());
 			}
 		}
-		System.out.println();
 
-		System.out.println("Veuillez choisir le code de la pizza à supprimer");
-		System.out.println("(99 pour abandonner)");
+		LOGGER.info("\nVeuillez choisir le code de la pizza à supprimer");
+		LOGGER.info("(99 pour abandonner)");
 		code = scanner.nextLine();
 		
 		if (!code.equals("99")) {
@@ -45,7 +44,7 @@ public class SupprimerPizzaOptionMenu extends OptionMenu{
 				throw new DeletePizzaException("Invalid code");
 			}
 			
-			done = this.getPizzaDao().deletePizza(code);
+			done = this.getPizzaDao().deletePizza(code.toUpperCase());
 			
 			if (!done) {
 				throw new DeletePizzaException("Pizza not found");

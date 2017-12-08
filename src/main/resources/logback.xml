@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<!-- redirection des logs vers la sortir Console Standard -->
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+		</encoder>
+	</appender>
+	
+	<appender name="APP" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%msg%n</pattern>
+		</encoder>
+	</appender>
+	
+	<logger name="fr.pizzeria.ihm" level="INFO" additivity="false">
+		<appender-ref ref="APP" />
+	</logger>
+	
+	<logger name="fr.pizzeria.util.UserInputHelper" level="INFO" additivity="false">
+		<appender-ref ref="APP" />
+	</logger>
+	
+	
+	
+	<!-- règle de logs par défaut. Ici : niveau INFO vers la sortie standard -->
+	<root level="WARN">
+		<appender-ref ref="STDOUT" />
+	</root>
+</configuration>

@@ -2,11 +2,9 @@ package fr.pizzeria.ihm;
 
 import java.util.Scanner;
 
-import fr.pizzeria.model.CategoryPizza;
 import fr.pizzeria.model.Pizza;
 import fr.pizzeria.util.UserInputHelper;
 import fr.pizzeria.dao.IPizzaDao;
-import fr.pizzeria.exception.SavePizzaException;
 import fr.pizzeria.exception.UpdatePizzaException;
 /**
  * Cette classe permet à l'utilisateur de modifier un objet Pizza
@@ -20,7 +18,7 @@ public class ModifierPizzaOptionMenu extends OptionMenu {
 	private IPizzaDao pizzaDao;
 
 	public ModifierPizzaOptionMenu(IPizzaDao pizzaDao, Scanner scanner) {
-		this.libelle = "3. Mettre � jour une pizza\r";
+		this.libelle = "3. Mettre à jour une pizza";
 		this.setScanner(scanner);
 		this.pizzaDao = pizzaDao;
 	}
@@ -32,13 +30,12 @@ public class ModifierPizzaOptionMenu extends OptionMenu {
 		
 		for(Pizza p : this.getPizzaDao().findAllPizzas()) {
 			if(p != null) {
-				System.out.println(p);
+				LOGGER.info(p.toString());
 			}
 		}
-		System.out.println();
 
-		System.out.println("Veuillez choisir le code de la pizza à modifier");
-		System.out.println("(99 pour abandonner)");
+		LOGGER.info("\nVeuillez choisir le code de la pizza à modifier");
+		LOGGER.info("(99 pour abandonner)");
 		code = scanner.nextLine();
 
 		if (!code.equals("99")) {
@@ -47,7 +44,7 @@ public class ModifierPizzaOptionMenu extends OptionMenu {
 			UserInputHelper<UpdatePizzaException> userInputHelper = new UserInputHelper<UpdatePizzaException>(scanner);
 			pizza = userInputHelper.getUserInput();
 			
-			done = this.getPizzaDao().updatePizza(code, pizza);
+			done = this.getPizzaDao().updatePizza(code.toUpperCase(), pizza);
 
 			if (!done) {
 				throw new UpdatePizzaException("Nous n'avons pas cette pizza.");

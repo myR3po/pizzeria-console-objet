@@ -11,21 +11,15 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <junit.version>3.8.1</junit.version>
+    <junit.version>4.12</junit.version>
+    <mariadb-client.version>1.1.7</mariadb-client.version>
+    <maven.compiler.source>1.8</maven.compiler.source>
+	<maven.compiler.target>1.8</maven.compiler.target>
   </properties>
 
   <build>
 	<finalName>${project.artifactId}</finalName>
-	<plugins>
-      <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.1 </version>
-        <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
-        </configuration>
-     </plugin>
-     
+	<plugins>     
      <plugin>
 			<groupId>org.apache.maven.plugins</groupId>
 			<artifactId>maven-jar-plugin</artifactId>
@@ -43,11 +37,28 @@
   </build>
   
   <dependencies>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.18</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.2.2</version>
+		</dependency>
+		
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>${junit.version}</version>      
+      <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+	    <groupId>org.mariadb.jdbc</groupId>
+	    <artifactId>mariadb-java-client</artifactId>
+	    <version>${mariadb-client.version}</version>
+	</dependency>
   </dependencies>
 </project>
