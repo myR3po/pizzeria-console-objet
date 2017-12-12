@@ -9,18 +9,18 @@ import fr.pizzeria.model.Pizza;
  *
  */
 public class ListerPizzasOptionMenu extends OptionMenu {
+	
 	private IPizzaDao pizzaDao;
 	
 	public ListerPizzasOptionMenu(IPizzaDao pizzaDao) {
-		this.libelle = "1. Lister les pizzas\r";
+		this.libelle = "1. Lister les pizzas";
 		this.pizzaDao = pizzaDao;
 	}
 
 	public boolean execute() {
 		for(Pizza pizza : this.getPizzaDao().findAllPizzas()) {
-				System.out.println(pizza);
+			LOGGER.info(pizza.toString());
 		}
-		System.out.println();
 		
 		return true;
 	}

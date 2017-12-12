@@ -1,5 +1,8 @@
 package fr.pizzeria.ihm;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import fr.pizzeria.exception.StockageException;
 
 /**
@@ -12,6 +15,7 @@ import fr.pizzeria.exception.StockageException;
  */
 public abstract class OptionMenu {
 	
+	protected static final Logger LOGGER = LoggerFactory.getLogger(OptionMenu.class);
 	protected String libelle;
 	
 	public String getLibelle() {

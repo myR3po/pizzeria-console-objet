@@ -2,12 +2,15 @@ package fr.pizzeria.util;
 
 import java.util.Scanner;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import fr.pizzeria.exception.StockageException;
 import fr.pizzeria.model.CategoryPizza;
 import fr.pizzeria.model.Pizza;
 
 public class UserInputHelper<T extends StockageException> {
-
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserInputHelper.class);
 	Scanner scanner;
 	T exception;
 
@@ -23,25 +26,24 @@ public class UserInputHelper<T extends StockageException> {
 			nameInput(pizza);
 			categoryInput(pizza);
 			priceInput(pizza);
-
-		System.out.println(pizza);
+			
 		return pizza;
 	}
 
 	@SuppressWarnings("unchecked")
 	private void nameInput(Pizza pizza) throws T {
 
-		System.out.println("Veuillez saisir le nom (sans espace)");
+		LOGGER.info("Veuillez saisir le nom (sans espace)");
 		pizza.setName(scanner.nextLine().trim());
 
-		if (!pizza.getName().matches("[a-zA-Z]")){
+		if (!pizza.getName().matches("[a-zA-Z]+")){
 			throw (T) new StockageException("The name contains an invalid character");
 		}
 	}
 
 	@SuppressWarnings("unchecked")
 	private void categoryInput(Pizza pizza) throws T {
-		System.out.println("Veuillez choisir catégorie\n" + "1. Viande\n" + "2. Poisson\n" + "3. Sans viande\n");
+		LOGGER.info("Veuillez choisir catégorie\n" + "1. Viande\n" + "2. Poisson\n" + "3. Sans viande\n");
 		int choix = 0;
 		try {
 			choix = Integer.parseInt(scanner.nextLine().trim());
@@ -66,21 +68,17 @@ public class UserInputHelper<T extends StockageException> {
 
 	@SuppressWarnings("unchecked")
 	private void codeInput(Pizza pizza) throws T {
-		System.out.println("Veuillez saisir le code");
+		LOGGER.info("Veuillez saisir le code");
 		pizza.setCode(scanner.nextLine().trim().toUpperCase());
 		
-		if(!pizza.getCode().matches("[a-zA-Z]")) {
-			throw (T) new StockageException("code contains an invalid character");
-		}
-		
-		if (pizza.getCode().length() != 3) {
-			throw (T) new StockageException("code must have 3 characters");
+		if(!pizza.getCode().matches("[a-zA-Z]{3}")) {
+			throw (T) new StockageException("code must either contain an invalid character or have 4+ characters");
 		}
 	}
 
 	@SuppressWarnings("unchecked")
 	private void priceInput(Pizza pizza) throws T {
-		System.out.println("Veuillez saisir le prix");
+		LOGGER.info("Veuillez saisir le prix");
 
 		try {
 			pizza.setPrice(Double.parseDouble(scanner.nextLine()));

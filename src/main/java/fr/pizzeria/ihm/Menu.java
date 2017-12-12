@@ -4,8 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import fr.pizzeria.dao.IPizzaDao;
-import fr.pizzeria.dao.PizzaDaoImpl;
+import fr.pizzeria.dao.PizzaDaoJdbc;
 import fr.pizzeria.exception.StockageException;
 
 /**
@@ -17,7 +20,7 @@ import fr.pizzeria.exception.StockageException;
  *
  */
 public class Menu {
-	
+	private static final Logger LOGGER = LoggerFactory.getLogger(Menu.class);
 	private Map<Integer, OptionMenu> actions;
 	private final String TITLE = "***** Pizzeria Administration *****\r\n";
 	private IPizzaDao pizzaDao;
@@ -25,7 +28,7 @@ public class Menu {
 	
 	
 	public Menu() {
-		this.pizzaDao = new PizzaDaoImpl();
+		this.pizzaDao = new PizzaDaoJdbc();
 		this.questionUser = new Scanner(System.in);
 		actions = new HashMap<Integer, OptionMenu>();
 		addOptionMenu();
@@ -49,11 +52,11 @@ public class Menu {
 		int choice = 0 ;
 		while(choice != 99) {
 			
-			System.out.println(this.getTitle());
+			LOGGER.info(this.getTitle());
 			for(Integer nb : getActions().keySet()) {
-				System.out.print(getActions().get(nb).getLibelle());
+				LOGGER.info(getActions().get(nb).getLibelle());
 			}
-			System.out.println("99. Sortir");
+			LOGGER.info("99. Sortir");
 			choice = Integer.parseInt(questionUser.nextLine());
 			try {
 				if(choice > 0 && choice < 5){
@@ -61,7 +64,7 @@ public class Menu {
 				}
 				
 			} catch (StockageException e) {
-				System.out.println(e.getMessage());
+				LOGGER.warn(e.getMessage());
 			}
 		}
 		System.out.println("Bye...");
